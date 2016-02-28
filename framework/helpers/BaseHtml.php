@@ -1837,15 +1837,17 @@ class BaseHtml
      */
     public static function addCssClass(&$options, $class)
     {
-        if (isset($options['class'])) {
+        if (!isset($options['class'])) {
+            $options['class']=' ';
+            $classes = preg_split('/\s+/', $options['class'], -1, PREG_SPLIT_NO_EMPTY);
+            $options['class'] = implode(' ', self::mergeCssClasses($classes, (array) $class));
+        } else {
             if (is_array($options['class'])) {
                 $options['class'] = self::mergeCssClasses($options['class'], (array) $class);
             } else {
                 $classes = preg_split('/\s+/', $options['class'], -1, PREG_SPLIT_NO_EMPTY);
                 $options['class'] = implode(' ', self::mergeCssClasses($classes, (array) $class));
             }
-        } else {
-            $options['class'] = $class;
         }
     }
 
